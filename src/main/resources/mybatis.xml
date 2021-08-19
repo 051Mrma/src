@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--settings:控制mybatis全局行为-->
+    <settings>
+        <!--设置mybatis输出日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--
+    第一种方法
+    定义别名
+    <typeAliases>
+        &lt;!&ndash;可以指定一个类型一个自定义别名
+        type:自定义类型的全限定名称
+        alias:别名(短小，容易记忆的)&ndash;&gt;
+        <typeAlias type="com.bjpowernode.domain.Student" alias="stu"></typeAlias>
+
+    </typeAliases>
+-->
+    <!--第二种方法,这时候的别名就是类名-->
+    <typeAliases>
+        <package name="com.bjpowernode.domain"/>
+        <package name="com.bjpowernode.vo"/>
+    </typeAliases>
+
+
+
+
+
+
+
+    
+    <!--环境配置，数据库连接信息
+    default：必须和某个environments的id值一样
+    告诉mybatis使用哪个数据库的连接信息，也就是访问哪个数据库
+    -->
+    <environments default="mydev">
+        <!--environment：一个数据库信息的配置，环境
+            id:一个谓一致，自定义表示环境名称
+        -->
+        <environment id="mydev">
+            <!--transactionManager:mybatis的事务类型
+            type:JDBC(表示使用jdbc中的connection对象的commit，rollback做事务处理)
+            type:MANAGER：把mybatis的事务处理委托给其它容器（spring)
+            -->
+            <transactionManager type="JDBC"/>
+            <!--dataSource：表示数据源，连接数据库的,java体系中，规定实现了javax.sql.DataSource都是数据源
+            type：表示数据源的类型，POOLED表示使用连接池
+            -->
+            <dataSource type="POOLED">
+                <!--driver,url,username,password是固定的不能自定义
+                -->
+                <!--数据库驱动-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--连接数据库的url-->
+                <property name="url" value="jdbc:mysql://localhost:3306/hutao"/>
+                <!--数据库用户名-->
+                <property name="username" value="root"/>
+                <!--数据库密码-->
+                <property name="password" value="0501"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--sql mapper(sql映射文件)的位置-->
+    <mappers>
+        <!--一个mapper标签指定一个文件的位置
+            从类路径开始的路径信息，代码编译之后会有target/calsses
+        -->
+        <mapper resource="com/bjpowernode/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>
